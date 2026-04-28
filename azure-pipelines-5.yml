@@ -1,0 +1,27 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+
+# ---------------- BUILD STAGE ----------------
+- stage: Build
+  displayName: Build Stage
+  jobs:
+  - job: BuildJob
+    steps:
+    - script: echo "Building the project..."
+      displayName: Build Step
+
+# ---------------- TEST STAGE ----------------
+- stage: Test
+  displayName: Test Stage
+  dependsOn: Build
+  condition: succeeded()   # runs only if build is successful
+  jobs:
+  - job: TestJob
+    steps:
+    - script: echo "Running tests..."
+      displayName: Test Step
